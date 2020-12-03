@@ -1,2 +1,3 @@
 rootProject.name='webrtcofficialdemo'
 include ':app'
+include ':webrtclib'
