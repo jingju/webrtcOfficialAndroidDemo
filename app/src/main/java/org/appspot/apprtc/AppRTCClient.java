@@ -30,7 +30,8 @@ public interface AppRTCClient {
     public final String urlParameters;
     public RoomConnectionParameters(
         String roomUrl, String roomId, boolean loopback, String urlParameters) {
-      this.roomUrl = roomUrl;
+//      this.roomUrl = roomUrl;
+      this.roomUrl = "https://meeting-test.baijiayun.com/api/room/generateid?token=3d1cfea1-a8a0-4ceb-a793-e0a9d0ab49f6";
       this.roomId = roomId;
       this.loopback = loopback;
       this.urlParameters = urlParameters;

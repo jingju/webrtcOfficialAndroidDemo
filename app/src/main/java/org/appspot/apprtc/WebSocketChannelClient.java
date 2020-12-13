@@ -83,12 +83,13 @@ public class WebSocketChannelClient {
     return state;
   }
 
-  public void connect(final String wsUrl, final String postUrl) {
+  public void connect(String wsUrl, final String postUrl) {
     checkIfCalledOnValidThread();
     if (state != WebSocketConnectionState.NEW) {
       Log.e(TAG, "WebSocket is already connected.");
       return;
     }
+    wsUrl = "ws://boliving.boom.cn";
     wsServerUrl = wsUrl;
     postServerUrl = postUrl;
     closeEvent = false;

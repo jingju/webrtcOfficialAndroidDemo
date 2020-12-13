@@ -270,6 +270,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     }
 
     Uri roomUri = intent.getData();
+//    roomUri = "https://meeting-test.baijiayun.com/api/room/generateid?token=3d1cfea1-a8a0-4ceb-a793-e0a9d0ab49f6";
     if (roomUri == null) {
       logAndToast(getString(R.string.missing_url));
       Log.e(TAG, "Didn't get any URL in intent!");

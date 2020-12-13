@@ -138,8 +138,10 @@ public class WebSocketRTCClient implements AppRTCClient, WebSocketChannelEvents 
 
   private String getMessageUrl(
       RoomConnectionParameters connectionParameters, SignalingParameters signalingParameters) {
-    return connectionParameters.roomUrl + "/" + ROOM_MESSAGE + "/" + connectionParameters.roomId
-        + "/" + signalingParameters.clientId + getQueryString(connectionParameters);
+//    return connectionParameters.roomUrl + "/" + ROOM_MESSAGE + "/" + connectionParameters.roomId
+    return "https://meetingapi-alpha.boommeeting.com/api/conference/v1/meetingInfo?" + "room_id=948620";
+//    + "/" + signalingParameters.clientId + getQueryString(connectionParameters);
+
   }
 
   private String getLeaveUrl(
