@@ -32,6 +32,10 @@ public class SoftwareVideoDecoderFactory implements VideoDecoderFactory {
     if (codecType.getName().equalsIgnoreCase("VP9") && LibvpxVp9Decoder.nativeIsSupported()) {
       return new LibvpxVp9Decoder();
     }
+    //后加的代码
+    if (codecType.getName().equalsIgnoreCase("H264") && H264Decoder.nativeIsSupported()) {
+      return new H264Decoder();
+    }
 
     return null;
   }
@@ -48,6 +52,8 @@ public class SoftwareVideoDecoderFactory implements VideoDecoderFactory {
     if (LibvpxVp9Decoder.nativeIsSupported()) {
       codecs.add(new VideoCodecInfo("VP9", new HashMap<>()));
     }
+    //后加的代码
+    codecs.add(new VideoCodecInfo("H264", new HashMap<>()));
 
     return codecs.toArray(new VideoCodecInfo[codecs.size()]);
   }

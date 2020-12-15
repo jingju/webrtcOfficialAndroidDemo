@@ -576,7 +576,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
 
     // Start room connection.
     logAndToast(getString(R.string.connecting_to, roomConnectionParameters.roomUrl));
-    appRtcClient.connectToRoom(roomConnectionParameters);
+    appRtcClient.connectToRoom(roomConnectionParameters);//获取房间相关信息，连接信令服务器
 
     // Create and audio manager that will take care of audio routing,
     // audio modes, audio device enumeration etc.
@@ -768,7 +768,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
       }
       if (params.iceCandidates != null) {
         // Add remote ICE candidates from room.
-        for (IceCandidate iceCandidate : params.iceCandidates) {
+        for (IceCandidate iceCandidate : params.iceCandidates) {//ti添加候选地址
           peerConnectionClient.addRemoteIceCandidate(iceCandidate);
         }
       }

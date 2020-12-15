@@ -22,7 +22,7 @@ import java.util.Scanner;
  * Asynchronous http requests implementation.
  */
 public class AsyncHttpURLConnection {
-  private static final int HTTP_TIMEOUT_MS = 8000;
+  private static final int HTTP_TIMEOUT_MS = 10000;//原来是8000这里改成10000
   private static final String HTTP_ORIGIN = "https://appr.tc";
   private final String method;
   private final String url;

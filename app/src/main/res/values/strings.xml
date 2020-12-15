@@ -80,7 +80,9 @@
     <string name="pref_videocodec_key">videocodec_preference</string>
     <string name="pref_videocodec_title">Default video codec.</string>
     <string name="pref_videocodec_dlg">Select default video codec.</string>
-    <string name="pref_videocodec_default">VP8</string>
+<!--    todo 默认修改成h264试一下，测试一下-->
+<!--    <string name="pref_videocodec_default">VP8</string>-->
+    <string name="pref_videocodec_default">H264</string>
 
     <string name="pref_hwcodec_key">hwcodec_preference</string>
     <string name="pref_hwcodec_title">Video codec hardware acceleration.</string>
