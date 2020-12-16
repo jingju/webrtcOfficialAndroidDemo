@@ -618,7 +618,7 @@ public class PeerConnectionClient {
     }
     isInitiator = false;
 
-    // Set INFO libjingle logging.
+    // Set INFO libjingle logging of native
     // NOTE: this _must_ happen while |factory| is alive!
     Logging.enableLogToDebugOutput(Logging.Severity.LS_INFO);
 
