@@ -343,7 +343,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     roomConnectionParameters =
         new RoomConnectionParameters(roomUri.toString(), roomId, loopback, urlParameters);
 
-    // Create CPU monitor
+    // Create CPU monitor（Android level-19,20,21,22,23）
     if (CpuMonitor.isSupported()) {
       cpuMonitor = new CpuMonitor(this);
       hudFragment.setCpuMonitor(cpuMonitor);
