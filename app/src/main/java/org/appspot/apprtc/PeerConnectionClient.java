@@ -264,6 +264,7 @@ public class PeerConnectionClient {
    * Peer connection events.
    */
   public interface PeerConnectionEvents {
+    // PC相关的事件通知，PC创建和SDP信息交换过程都依赖这些事件
     /**
      * Callback fired once local SDP is created and set.
      */
@@ -633,6 +634,7 @@ public class PeerConnectionClient {
         remoteVideoTrack.addSink(remoteSink);
       }
     }
+    // 默认添加音频Track，而视频Track有配置开关（具体见上文）
     peerConnection.addTrack(createAudioTrack(), mediaStreamLabels);
     if (isVideoCallEnabled()) {
       findVideoSender();
@@ -927,6 +929,7 @@ public class PeerConnectionClient {
     });
   }
 
+  // 根据音频约束条件创建audioTrack
   @Nullable
   private AudioTrack createAudioTrack() {
     audioSource = factory.createAudioSource(audioConstraints);
@@ -935,10 +938,12 @@ public class PeerConnectionClient {
     return localAudioTrack;
   }
 
+  // 根据视频采集器类型创建videoTrack
   @Nullable
   private VideoTrack createVideoTrack(VideoCapturer capturer) {
     surfaceTextureHelper =
         SurfaceTextureHelper.create("CaptureThread", rootEglBase.getEglBaseContext());
+    // 注意：如果是屏幕采集Capturer，创建VideoSource的逻辑会不一样
     videoSource = factory.createVideoSource(capturer.isScreencast());
     capturer.initialize(surfaceTextureHelper, appContext, videoSource.getCapturerObserver());
     capturer.startCapture(videoWidth, videoHeight, videoFps);

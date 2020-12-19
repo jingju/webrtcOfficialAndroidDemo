@@ -428,6 +428,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     return getIntent().getBooleanExtra(EXTRA_CAPTURETOTEXTURE_ENABLED, false);
   }
 
+  // 优先查找前置摄像头，找不到再启用后置摄像头及其他摄像头
   private @Nullable VideoCapturer createCameraCapturer(CameraEnumerator enumerator) {
     final String[] deviceNames = enumerator.getDeviceNames();
 
@@ -575,10 +576,12 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     callStartedTimeMs = System.currentTimeMillis();
 
     // Start room connection.
+    // 进入房间显示的第一条信息
     logAndToast(getString(R.string.connecting_to, roomConnectionParameters.roomUrl));
-    appRtcClient.connectToRoom(roomConnectionParameters);//获取房间相关信息，连接信令服务器
+    // 获取房间相关信息，连接信令服务器
+    appRtcClient.connectToRoom(roomConnectionParameters);
 
-    // Create and audio manager that will take care of audio routing,
+    // Create audio manager that will take care of audio routing,
     // audio modes, audio device enumeration etc.
     audioManager = AppRTCAudioManager.create(getApplicationContext());
     // Store existing audio settings and change audio mode to
@@ -702,6 +705,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     final VideoCapturer videoCapturer;
     String videoFileAsCamera = getIntent().getStringExtra(EXTRA_VIDEO_FILE_AS_CAMERA);
     if (videoFileAsCamera != null) {
+      // 文件源
       try {
         videoCapturer = new FileVideoCapturer(videoFileAsCamera);
       } catch (IOException e) {
@@ -709,8 +713,10 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
         return null;
       }
     } else if (screencaptureEnabled) {
+      // 屏幕源
       return createScreenCapturer();
     } else if (useCamera2()) {
+      // 摄像头2源
       if (!captureToTexture()) {
         reportError(getString(R.string.camera2_texture_only_error));
         return null;
@@ -719,6 +725,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
       Logging.d(TAG, "Creating capturer using camera2 API.");
       videoCapturer = createCameraCapturer(new Camera2Enumerator(this));
     } else {
+      // 摄像头1源
       Logging.d(TAG, "Creating capturer using camera1 API.");
       videoCapturer = createCameraCapturer(new Camera1Enumerator(captureToTexture()));
     }
@@ -745,20 +752,24 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
     final long delta = System.currentTimeMillis() - callStartedTimeMs;
 
     signalingParameters = params;
+    //
     logAndToast("Creating peer connection, delay=" + delta + "ms");
     VideoCapturer videoCapturer = null;
     if (peerConnectionParameters.videoCallEnabled) {
+      // 如果启用视频选项，则创建视频采集器
       videoCapturer = createVideoCapturer();
     }
     peerConnectionClient.createPeerConnection(
         localProxyVideoSink, remoteSinks, videoCapturer, signalingParameters);
 
     if (signalingParameters.initiator) {
+      // 视频发起者，即推流端，开始创建 offer sdp
       logAndToast("Creating OFFER...");
       // Create offer. Offer SDP will be sent to answering client in
       // PeerConnectionEvents.onLocalDescription event.
       peerConnectionClient.createOffer();
     } else {
+      // 视频接收者，即拉流端，保存对端的offer信息，并创建answer sdp
       if (params.offerSdp != null) {
         peerConnectionClient.setRemoteDescription(params.offerSdp);
         logAndToast("Creating ANSWER...");
@@ -768,7 +779,8 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
       }
       if (params.iceCandidates != null) {
         // Add remote ICE candidates from room.
-        for (IceCandidate iceCandidate : params.iceCandidates) {//ti添加候选地址
+        // 添加候选地址
+        for (IceCandidate iceCandidate : params.iceCandidates) {
           peerConnectionClient.addRemoteIceCandidate(iceCandidate);
         }
       }
@@ -862,6 +874,7 @@ public class CallActivity extends Activity implements AppRTCClient.SignalingEven
       @Override
       public void run() {
         if (appRtcClient != null) {
+          // 推流端，UI会展示 "Sending OFFER，delay=*ms"
           logAndToast("Sending " + desc.type + ", delay=" + delta + "ms");
           if (signalingParameters.initiator) {
             appRtcClient.sendOfferSdp(desc);

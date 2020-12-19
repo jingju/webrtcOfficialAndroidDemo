@@ -170,6 +170,9 @@ public class WebSocketRTCClient implements AppRTCClient, WebSocketChannelEvents 
       Log.w(TAG, "No offer SDP in room response.");
     }
     initiator = signalingParameters.initiator;
+    // messageUrl 和 leaveUrl 无异，这样的设计为啥？
+    // https://appr.tc/message/123123123/90672844
+    // https://appr.tc/leave/123123123/90672844
     messageUrl = getMessageUrl(connectionParameters, signalingParameters);
     leaveUrl = getLeaveUrl(connectionParameters, signalingParameters);
     Log.d(TAG, "Message URL: " + messageUrl);
@@ -180,6 +183,7 @@ public class WebSocketRTCClient implements AppRTCClient, WebSocketChannelEvents 
     events.onConnectedToRoom(signalingParameters);
 
     // Connect and register WebSocket client.
+    // wss://apprtc-ws.webrtc.org:443/ws，https://apprtc-ws.webrtc.org:443
     wsClient.connect(signalingParameters.wssUrl, signalingParameters.wssPostUrl);
     wsClient.register(connectionParameters.roomId, signalingParameters.clientId);
   }

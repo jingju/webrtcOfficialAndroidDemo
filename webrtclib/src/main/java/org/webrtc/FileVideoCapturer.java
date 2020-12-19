@@ -155,6 +155,7 @@ public class FileVideoCapturer implements VideoCapturer {
 
   public FileVideoCapturer(String inputFile) throws IOException {
     try {
+      // y4m文件是一种yuv格式的视频文件，具体格式可以参考链接：https://blog.csdn.net/hiccupzhu/article/details/19498093
       videoReader = new VideoReaderY4M(inputFile);
     } catch (IOException e) {
       Logging.d(TAG, "Could not open video file: " + inputFile);

@@ -505,6 +505,7 @@ public class PeerConnectionFactory {
     return nativeFactory;
   }
 
+  // 校验PCFactory是否存在
   private void checkPeerConnectionFactoryExists() {
     if (nativeFactory == 0) {
       throw new IllegalStateException("PeerConnectionFactory has been disposed.");

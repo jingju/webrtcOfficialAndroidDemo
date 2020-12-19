@@ -63,6 +63,7 @@ public class Camera1Enumerator implements CameraEnumerator {
     return info != null && info.facing == android.hardware.Camera.CameraInfo.CAMERA_FACING_BACK;
   }
 
+  // 获取摄像头支持的宽、高、最小和最大帧率，均为硬件属性
   @Override
   public List<CaptureFormat> getSupportedFormats(String deviceName) {
     return getSupportedFormats(getCameraIndex(deviceName));

@@ -241,6 +241,7 @@ abstract class CameraCapturer implements CameraVideoCapturer {
     this.cameraThreadHandler = surfaceTextureHelper.getHandler();
   }
 
+  // 公共方法放在抽象父类中
   @Override
   public void startCapture(int width, int height, int framerate) {
     Logging.d(TAG, "startCapture: " + width + "x" + height + "@" + framerate);
@@ -451,6 +452,7 @@ abstract class CameraCapturer implements CameraVideoCapturer {
     }
   }
 
+  // 创建摄像头Session的抽象方法，在Camera1和Camera2中分别实现
   abstract protected void createCameraSession(
       CameraSession.CreateSessionCallback createSessionCallback, CameraSession.Events events,
       Context applicationContext, SurfaceTextureHelper surfaceTextureHelper, String cameraName,
